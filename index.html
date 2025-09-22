@@ -1,0 +1,3059 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a1929, #1a365d);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 100;
+        }
+        
+        .menu-toggle {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+            color: #3498db;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #3498db;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: #2ecc71;
+        }
+        
+        .balance {
+            font-size: 22px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 30px;
+            animation: pulse 2s infinite;
+            color: #2ecc71;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+        
+        .countdown-container {
+            width: 100%;
+            background: linear-gradient(90deg, #1a365d, #3498db);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .countdown-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .countdown-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .countdown {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+        
+        .countdown-finished {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2ecc71;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: none;
+            margin-top: 10px;
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .auth-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 24px;
+            color: #3498db;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+        
+        .btn-success {
+            background: #2ecc71;
+            color: #fff;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: #fff;
+        }
+        
+        .btn-warning {
+            background: #f39c12;
+            color: #fff;
+        }
+        
+        .remember {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .remember input {
+            margin-right: 10px;
+        }
+        
+        .switch-form {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .switch-form a {
+            color: #3498db;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .dashboard {
+            display: none;
+            width: 100%;
+        }
+        
+        .welcome-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .welcome-content {
+            background: #0a1929;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+            animation: scaleIn 0.5s ease;
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 28px;
+            color: #e74c3c;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .action-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            min-width: 150px;
+        }
+        
+        .welcome-animation {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1));
+        }
+        
+        .animation-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(52, 152, 219, 0.2);
+            animation: pulse-circle 3s infinite;
+        }
+        
+        .circle-1 {
+            width: 200px;
+            height: 200px;
+            animation-delay: 0s;
+        }
+        
+        .circle-2 {
+            width: 150px;
+            height: 150px;
+            animation-delay: 1s;
+        }
+        
+        .circle-3 {
+            width: 100px;
+            height: 100px;
+            animation-delay: 2s;
+        }
+        
+        @keyframes pulse-circle {
+            0% { transform: scale(0.8); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+            100% { transform: scale(0.8); opacity: 0.7; }
+        }
+        
+        .animation-content {
+            z-index: 10;
+            text-align: center;
+        }
+        
+        .animation-content h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+        
+        .animation-content p {
+            font-size: 18px;
+            max-width: 600px;
+            color: #ecf0f1;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .stat-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+        
+        .transactions {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .transactions h3 {
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+        
+        .transaction-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .transaction-status {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+        
+        .status-pending {
+            background: #f39c12;
+        }
+        
+        .status-approved {
+            background: #2ecc71;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: #2c3e50;
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .close-modal {
+            cursor: pointer;
+            font-size: 24px;
+            color: #e74c3c;
+        }
+        
+        .wallet-address {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copy-btn {
+            background: #3498db;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            color: #fff;
+            cursor: pointer;
+        }
+        
+        .notification {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            display: none;
+        }
+        
+        .notification p {
+            margin: 5px 0;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background: #0a1929;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .sidebar.open {
+            left: 0;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .close-sidebar {
+            cursor: pointer;
+            font-size: 24px;
+            color: #e74c3c;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        
+        .sidebar-menu a:hover {
+            background: rgba(52, 152, 219, 0.2);
+        }
+        
+        .sidebar-menu i {
+            margin-right: 15px;
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .plans-section {
+            display: none;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .plans-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #3498db;
+            font-size: 28px;
+        }
+        
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .plan-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: #3498db;
+        }
+        
+        .plan-card.selected {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.1);
+        }
+        
+        .plan-name {
+            font-size: 20px;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        .plan-amount {
+            font-size: 24px;
+            color: #2ecc71;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .plan-daily {
+            font-size: 16px;
+            color: #ecf0f1;
+            margin-bottom: 15px;
+        }
+        
+        .plan-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .plan-button:hover {
+            background: #2980b9;
+        }
+        
+        .plan-button.selected {
+            background: #2ecc71;
+        }
+        
+        .plan-button.selected:hover {
+            background: #27ae60;
+        }
+        
+        .plan-details {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .referral-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .referral-code-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #3498db;
+        }
+        
+        .referral-instructions {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .referral-stats {
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .referral-stats p {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .referral-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .referral-item {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .referral-status {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+        
+        .status-pending {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .status-active {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .user-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .user-info p {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        .admin-panel {
+            display: none;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .admin-table th, .admin-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .admin-table th {
+            background: rgba(0, 0, 0, 0.3);
+            color: #3498db;
+        }
+        
+        .admin-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .admin-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .admin-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .user-details {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .user-details h3 {
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+        
+        .user-details p {
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .admin-access {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        
+        .hidden-admin {
+            display: none;
+        }
+        
+        .firebase-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .status-connected {
+            color: #2ecc71;
+        }
+        
+        .status-disconnected {
+            color: #e74c3c;
+        }
+        
+        .delete-user-btn {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .copy-wallet-btn {
+            background: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .confirm-modal-content {
+            background: #2c3e50;
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        
+        .confirm-modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .network-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .network-btn {
+            padding: 10px 15px;
+            border: 1px solid #3498db;
+            border-radius: 8px;
+            background: transparent;
+            color: #3498db;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .network-btn.active, .network-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+        
+        .network-details {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .conversion-info {
+            font-size: 14px;
+            color: #2ecc71;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+        
+        .dashboard-plans {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .plan-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .expected-earnings {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .earnings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .earning-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+        
+        .progress-text {
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .purchase-confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .purchase-confirm-content {
+            background: #2c3e50;
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        
+        .purchase-confirm-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .plans-container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .animation-content h2 {
+                font-size: 24px;
+            }
+            
+            .animation-content p {
+                font-size: 16px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .network-buttons {
+                flex-direction: column;
+            }
+            
+            .purchase-confirm-buttons {
+                flex-direction: column;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Firebase Status Indicator -->
+    <div class="firebase-status" id="firebaseStatus">
+        <i class="fas fa-circle" id="statusIcon"></i>
+        <span id="statusText">Conectando...</span>
+    </div>
+    
+    <!-- Welcome Popup Modificado para Quality Center - OCULTO INICIALMENTE -->
+    <div class="welcome-popup" id="welcomePopup" style="display: none;">
+        <div class="welcome-content">
+            <span class="close-popup" id="closePopup">×</span>
+            <h2>Bienvenido a Quality Center</h2>
+            <p>Quality Center es una empresa especializada en copytrading, que ofrece planes de inversión desde 15 USDT hasta 300 USDT. Nuestro sistema automatizado generates ganancias diarias del 20% sobre el capital invertido en tu plan.</p>
+            <br>
+            <p>Una vez que tu saldo sea activado por un administrador, comenzará a generar ganancias diarias. Podrás retirar tus ganancias una vez finalizado el período de tu plan.</p>
+            <br>
+            <button class="btn btn-primary" id="understandBtn">Entendido</button>
+        </div>
+    </div>
+    
+    <!-- Modal de confirmación de eliminación -->
+    <div class="confirm-modal" id="deleteConfirmModal">
+        <div class="confirm-modal-content">
+            <h3>Confirmar Eliminación</h3>
+            <p>¿Estás seguro de que deseas eliminar al usuario <span id="deleteUserName"></span>?</p>
+            <p>Esta acción no se puede deshacer.</p>
+            <div class="confirm-modal-buttons">
+                <button class="btn btn-primary" id="cancelDelete">Cancelar</button>
+                <button class="btn btn-danger" id="confirmDelete">Eliminar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de confirmación de compra -->
+    <div class="purchase-confirm-modal" id="purchaseConfirmModal">
+        <div class="purchase-confirm-content">
+            <div class="modal-header">
+                <h3>Confirmar Compra de Plan</h3>
+                <span class="close-modal" id="closePurchaseConfirm">×</span>
+            </div>
+            <p>¿Estás seguro de que deseas adquirir el plan <span id="confirmPlanName"></span> por <span id="confirmPlanAmount"></span> USDT?</p>
+            <p>Ganancia diaria: <span id="confirmPlanDaily"></span> USDT</p>
+            <p>Tu saldo actual: <span id="currentUserBalance"></span> USDT</p>
+            <div class="purchase-confirm-buttons">
+                <button class="btn btn-primary" id="cancelPurchase">Cancelar</button>
+                <button class="btn btn-success" id="confirmPurchase">Confirmar Compra</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sidebar Menu con opción de Planes -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Menú</h3>
+            <span class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></span>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" id="menuDashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="#" id="menuPlans"><i class="fas fa-gem"></i> Planes de Inversión</a></li>
+            <li><a href="#" id="menuUserData"><i class="fas fa-user"></i> Mis Datos</a></li>
+            <li><a href="#" id="menuFriends"><i class="fas fa-users"></i> Referidos</a></li>
+            <li><a href="https://t.me/" target="_blank"><i class="fas fa-paper-plane"></i> Grupo de Telegram</a></li>
+            <li><a href="mailto:qualitycenter@gmail.com"><i class="fas fa-headset"></i> Soporte</a></li>
+            <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+        </ul>
+        
+        <!-- Sección de Planes (NUEVA) -->
+        <div class="plans-section" id="plansSection">
+            <h3 class="plans-title">Planes de Inversión</h3>
+            <div class="plans-container">
+                <div class="plan-card" data-plan="vip1" data-amount="15">
+                    <div class="plan-name">VIP 1</div>
+                    <div class="plan-amount">15 USDT</div>
+                    <div class="plan-daily">3 USDT diarios</div>
+                    <button class="plan-button">Seleccionar</button>
+                </div>
+                
+                <div class="plan-card" data-plan="vip2" data-amount="25">
+                    <div class="plan-name">VIP 2</div>
+                    <div class="plan-amount">25 USDT</div>
+                    <div class="plan-daily">5 USDT diarios</div>
+                    <button class="plan-button">Seleccionar</button>
+                </div>
+                
+                <div class="plan-card" data-plan="vip3" data-amount="35">
+                    <div class="plan-name">VIP 3</div>
+                    <div class="plan-amount">35 USDT</div>
+                    <div class="plan-daily">7 USDT diarios</div>
+                    <button class="plan-button">Seleccionar</button>
+                </div>
+                
+                <div class="plan-card" data-plan="vip4" data-amount="50">
+                    <div class="plan-name">VIP 4</div>
+                    <div class="plan-amount">50 USDT</div>
+                    <div class="plan-daily">10 USDT diarios</div>
+                    <button class="plan-button">Seleccionar</button>
+                </div>
+                
+                <div class="plan-card" data-plan="vip5" data-amount="75">
+                    <div class="plan-name">VIP 5</div>
+                    <div class="plan-amount">75 USDT</div>
+                    <div class="plan-daily">15 USDT diarios</div>
+                    <button class="plan-button">Seleccionar</button>
+                </div>
+                
+                <div class="plan-card" data-plan="vip6" data-amount="100">
+                    <div class="plan-name">VIP 6</div>
+                    <div class="plan-amount">100 USDT</div>
+                    <div class="plan-daily">20 USDT diarios</div>
+                    <button class="plan-button">Seleccionar</button>
+                </div>
+                
+                <div class="plan-card" data-plan="vip7" data-amount="200">
+                    <div class="plan-name">VIP 7</div>
+                    <div class="plan-amount">200 USDT</div>
+                    <div class="plan-daily">40 USDT diarios</div>
+                    <button class="plan-button">Seleccionar</button>
+                </div>
+                
+                <div class="plan-card" data-plan="vip8" data-amount="300">
+                    <div class="plan-name">VIP 8</div>
+                    <div class="plan-amount">300 USDT</div>
+                    <div class="plan-daily">60 USDT diarios</div>
+                    <button class="plan-button">Seleccionar</button>
+                </div>
+            </div>
+            
+            <div class="plan-details" id="planDetails" style="display: none;">
+                <h4>Detalles del Plan Seleccionado</h4>
+                <p>Plan: <span id="selectedPlanName"></span></p>
+                <p>Inversión: <span id="selectedPlanAmount"></span> USDT</p>
+                <p>Ganancia diaria: <span id="selectedPlanDaily"></span> USDT</p>
+                <p>Ganancia mensual estimada: <span id="selectedPlanMonthly"></span> USDT</p>
+                
+                <button class="btn btn-success" id="confirmPlanSelection">Comprar Plan</button>
+            </div>
+        </div>
+        
+        <!-- Sección de Mis Datos -->
+        <div class="user-info" id="userDataSection">
+            <h3>Mis Datos</h3>
+            <p><span>Usuario:</span> <span id="displayUserName">user@example.com</span></p>
+            <p><span>ID Único:</span> <span id="displayUserID">123456</span></p>
+            <p><span>Wallet:</span> <span id="displayUserWallet">No configurada</span></p>
+            <p><span>Plan Actual:</span> <span id="displayUserPlan">Ninguno</span></p>
+        </div>
+        
+        <!-- Sección de Referidos -->
+        <div class="referral-section" id="referralSection">
+            <h3>Programa de Referidos</h3>
+            <p>Comparte tu código único y gana el 15% de lo que inviertan tus referidos.</p>
+            
+            <div class="referral-code-display">
+                <span id="referralCodeDisplay">CARGANDO...</span>
+            </div>
+            
+            <div class="referral-instructions">
+                <p>Instrucciones:</p>
+                <ol>
+                    <li>Comparte tu código: <strong id="referralCodeText">CARGANDO...</strong></li>
+                    <li>Pide a tus referidos que ingresen este código al registrarse</li>
+                    <li>Gana el 15% de su primera recarga</li>
+                </ol>
+            </div>
+            
+            <button class="copy-btn" id="copyReferralCode"><i class="fas fa-copy"></i> Copiar Código</button>
+            
+            <div class="referral-stats" id="referralStats">
+                <p><span>Referidos totales:</span> <span id="totalReferrals">0</span></p>
+                <p><span>Ganancias por referidos:</span> <span id="referralEarnings">0.00 USDT</span></p>
+            </div>
+            
+            <h4>Tus Referidos</h4>
+            <div class="referral-list" id="referralList">
+                <div class="referral-item">No tienes referidos aún</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Página de Registro -->
+        <div id="registerPage" class="auth-container">
+            <h2 class="form-title">Crear Cuenta</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="regEmail">Correo Electrónico</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Contraseña</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="regConfirmPassword">Repetir Contraseña</label>
+                    <input type="password" id="regConfirmPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="refCode">Código de Referencia (opcional)</label>
+                    <input type="text" id="refCode" placeholder="Ingresa el código de referido">
+                </div>
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </form>
+            <div class="switch-form">
+                ¿Ya tienes una cuenta? <a id="showLogin">Iniciar Sesión</a>
+            </div>
+        </div>
+        
+        <!-- Página de Login -->
+        <div id="loginPage" class="auth-container" style="display: none;">
+            <h2 class="form-title">Iniciar Sesión</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Correo Electrónico</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="remember">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Recordar credenciales</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Acceder</button>
+            </form>
+            <div class="switch-form">
+                ¿No tienes una cuenta? <a id="showRegister">Registrarse</a>
+            </div>
+        </div>
+        
+        <!-- Panel Principal -->
+        <div id="dashboard" class="dashboard">
+            <header>
+                <div class="logo">
+                    <span class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></span>
+                    <i class="fas fa-gem"></i> Quality Center
+                </div>
+                <div class="balance" id="userBalance">0.0 USDT</div>
+            </header>
+            
+            <!-- Animación de bienvenida -->
+            <div class="welcome-animation fade-in">
+                <div class="animation-circle circle-1"></div>
+                <div class="animation-circle circle-2"></div>
+                <div class="animation-circle circle-3"></div>
+                <div class="animation-content">
+                    <h2>Bienvenido a Quality Center</h2>
+                    <p>Invierte en nuestros planes VIP y obtén ganancias diarias del 20%</p>
+                </div>
+            </div>
+            
+            <!-- Cuadros de estadísticas -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-title">Saldo Disponible</div>
+                    <div class="stat-value" id="statBalance">0.00 USDT</div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-title">Ganancias Totales</div>
+                    <div class="stat-value" id="statEarnings">0.00 USDT</div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="stat-title">Planes Activos</div>
+                    <div class="stat-value" id="statPlans">0</div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-title">Referidos</div>
+                    <div class="stat-value" id="statReferrals">0</div>
+                </div>
+            </div>
+            
+            <!-- Contador de cuenta regresiva -->
+            <div class="countdown-container">
+                <div class="countdown-title">Próxima Ganancia en:</div>
+                <div class="countdown" id="countdown">24:00:00</div>
+                <div class="countdown-finished" id="countdownFinished">¡Ganancias Disponibles!</div>
+            </div>
+            
+            <!-- Barra de Progreso -->
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Próxima ganancia en: 24:00:00</div>
+                <button class="btn btn-success" id="collectEarnings">Recolectar Ganancias</button>
+            </div>
+            
+            <div class="actions">
+                <button class="action-btn btn-success" id="rechargeBtn">Recargar</button>
+                <button class="action-btn btn-danger" id="withdrawBtn">Retirar</button>
+            </div>
+            
+            <div class="transactions">
+                <h3>Historial de Transacciones</h3>
+                <div class="transaction-list" id="transactionList">
+                    <!-- Las transacciones se agregarán aquí dinámicamente -->
+                </div>
+            </div>
+            
+            <!-- Admin Panel (oculto para usuarios normales) -->
+            <div class="admin-panel" id="adminPanel">
+                <div class="admin-header">
+                    <h2>Panel de Administración</h2>
+                    <button class="btn btn-danger" id="closeAdminPanel">Cerrar Panel</button>
+                </div>
+                
+                <div class="user-details" id="adminUserDetails">
+                    <h3>Detalles del Usuario</h3>
+                    <p><span>ID:</span> <span id="adminUserId">-</span></p>
+                    <p><span>Email:</span> <span id="adminUserEmail">-</span></p>
+                    <p><span>Wallet:</span> <span id="adminUserWallet">-</span></p>
+                    <p><span>Plan:</span> <span id="adminUserPlan">-</span></p>
+                    <p><span>Saldo:</span> <span id="adminUserBalance">-</span></p>
+                    <p><span>Estado:</span> <span id="adminUserTradingStatus">-</span></p>
+                    <div class="wallet-address">
+                        <span id="adminUserWalletAddress">-</span>
+                        <button class="copy-btn copy-wallet-btn" id="copyAdminWallet">Copiar</button>
+                    </div>
+                </div>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Plan</th>
+                            <th>Saldo</th>
+                            <th>Recarga Aprobada</th>
+                            <th>Retiro Aprobado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUsersList">
+                        <!-- Los usuarios se listarán aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Recarga Modificado -->
+    <div id="rechargeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Recargar Fondos</h3>
+                <span class="close-modal" id="closeRecharge">×</span>
+            </div>
+            
+            <!-- Selector de red -->
+            <div class="form-group">
+                <label>Seleccione red para recargar:</label>
+                <div class="network-buttons">
+                    <button class="network-btn active" data-network="bep20">USDT BEP20</button>
+                    <button class="network-btn" data-network="trc20">USDT TRC20</button>
+                    <button class="network-btn" data-network="trx">TRX TRC20</button>
+                </div>
+            </div>
+            
+            <!-- Contenedor de detalles de red -->
+            <div id="networkDetails">
+                <!-- Los detalles de la red seleccionada aparecerán aquí -->
+            </div>
+            
+            <div class="form-group">
+                <label for="paymentProof">Comprobante de pago (OPCIONAL)</label>
+                <input type="file" id="paymentProof">
+            </div>
+            <button class="btn btn-success" id="completePayment">Completar Pago</button>
+            
+            <div class="notification">
+                <h4>Notificaciones de Pago</h4>
+                <div id="paymentNotifications">
+                    <!-- Notificaciones de pago aparecerán aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Retiro Modificado -->
+    <div id="withdrawModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Retirar Fondos</h3>
+                <span class="close-modal" id="closeWithdraw">×</span>
+            </div>
+            
+            <!-- Selector de red para retiro -->
+            <div class="form-group">
+                <label>Seleccione red para retirar:</label>
+                <div class="network-buttons" id="withdrawNetworkButtons">
+                    <button class="network-btn active" data-network="bep20">USDT BEP20</button>
+                    <button class="network-btn" data-network="trc20">USDT TRC20</button>
+                    <button class="network-btn" data-network="trx">TRX TRC20</button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="withdrawAmount">Cantidad a retirar (USDT)</label>
+                <input type="number" id="withdrawAmount" min="3" required>
+                <small>Ganancias disponibles: <span id="availableEarnings">0.00</span> USDT</small>
+            </div>
+            <div class="form-group">
+                <label for="withdrawAddress">Dirección de Wallet</label>
+                <input type="text" id="withdrawAddress" required placeholder="Ingrese la dirección según la red seleccionada">
+            </div>
+            <button class="btn btn-danger" id="confirmWithdraw">Confirmar Retiro</button>
+            
+            <div class="notification">
+                <h4>Notificaciones de Retiro</h4>
+                <div id="withdrawNotifications">
+                    <!-- Notificaciones de retiro aparecerán aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón de acceso admin (oculto) -->
+    <div class="admin-access hidden-admin" id="adminAccess">
+        <i class="fas fa-lock"></i>
+    </div>
+
+    <!-- Firebase App -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD1PniZck7SLGx5rRZtKV6zh8N1lUvsmHo",
+            authDomain: "trading-ai-dubai-v2.firebaseapp.com",
+            projectId: "trading-ai-dubai-v2",
+            storageBucket: "trading-ai-dubai-v2.appspot.com",
+            messagingSenderId: "724546207955",
+            appId: "1:724546207955:web:1b99920463bf5264e05426"
+        };
+
+        // Inicializar Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        
+        // Planes VIP con sus detalles
+        const VIP_PLANS = {
+            vip1: { name: "VIP 1", amount: 15, daily: 3 },
+            vip2: { name: "VIP 2", amount: 25, daily: 5 },
+            vip3: { name: "VIP 3", amount: 35, daily: 7 },
+            vip4: { name: "VIP 4", amount: 50, daily: 10 },
+            vip5: { name: "VIP 5", amount: 75, daily: 15 },
+            vip6: { name: "VIP 6", amount: 100, daily: 20 },
+            vip7: { name: "VIP 7", amount: 200, daily: 40 },
+            vip8: { name: "VIP 8", amount: 300, daily: 60 }
+        };
+
+        // Wallets por red
+        const WALLETS = {
+            bep20: "0x621917958C7ac81190e9f876C23D6B9914f31263",
+            trc20: "TJuuHHmGQibBaYEhC8fRVcQoNvFVMnhwCD",
+            trx: "TJuuHHmGQibBaYEhC8fRVcQoNvFVMnhwCD"
+        };
+
+        // Variables globales
+        let users = [];
+        let currentUser = null;
+        let countdownInterval = null;
+        const ADMIN_PASSWORD = "admin8803";
+        let selectedNetwork = 'bep20';
+        let selectedPlan = null;
+        let userToDelete = null;
+        let pendingEarnings = 0;
+
+        // Función para inicializar la aplicación cuando el DOM esté listo
+        function initApp() {
+            // Obtener referencias a elementos del DOM
+            const firebaseStatus = document.getElementById('firebaseStatus');
+            const statusIcon = document.getElementById('statusIcon');
+            const statusText = document.getElementById('statusText');
+            const registerPage = document.getElementById('registerPage');
+            const loginPage = document.getElementById('loginPage');
+            const dashboard = document.getElementById('dashboard');
+            const registerForm = document.getElementById('registerForm');
+            const loginForm = document.getElementById('loginForm');
+            const showLogin = document.getElementById('showLogin');
+            const showRegister = document.getElementById('showRegister');
+            const rechargeBtn = document.getElementById('rechargeBtn');
+            const withdrawBtn = document.getElementById('withdrawBtn');
+            const rechargeModal = document.getElementById('rechargeModal');
+            const withdrawModal = document.getElementById('withdrawModal');
+            const closeRecharge = document.getElementById('closeRecharge');
+            const closeWithdraw = document.getElementById('closeWithdraw');
+            const copyWallet = document.getElementById('copyWallet');
+            const completePayment = document.getElementById('completePayment');
+            const confirmWithdraw = document.getElementById('confirmWithdraw');
+            const userBalance = document.getElementById('userBalance');
+            const transactionList = document.getElementById('transactionList');
+            const paymentNotifications = document.getElementById('paymentNotifications');
+            const withdrawNotifications = document.getElementById('withdrawNotifications');
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const closeSidebar = document.getElementById('closeSidebar');
+            const overlay = document.getElementById('overlay');
+            const menuDashboard = document.getElementById('menuDashboard');
+            const menuPlans = document.getElementById('menuPlans');
+            const menuUserData = document.getElementById('menuUserData');
+            const menuFriends = document.getElementById('menuFriends');
+            const plansSection = document.getElementById('plansSection');
+            const userDataSection = document.getElementById('userDataSection');
+            const referralSection = document.getElementById('referralSection');
+            const displayUserName = document.getElementById('displayUserName');
+            const displayUserID = document.getElementById('displayUserID');
+            const displayUserWallet = document.getElementById('displayUserWallet');
+            const displayUserPlan = document.getElementById('displayUserPlan');
+            const referralCodeDisplay = document.getElementById('referralCodeDisplay');
+            const referralCodeText = document.getElementById('referralCodeText');
+            const copyReferralCode = document.getElementById('copyReferralCode');
+            const totalReferrals = document.getElementById('totalReferrals');
+            const referralEarnings = document.getElementById('referralEarnings');
+            const referralList = document.getElementById('referralList');
+            const referralStats = document.getElementById('referralStats');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const welcomePopup = document.getElementById('welcomePopup');
+            const closePopup = document.getElementById('closePopup');
+            const understandBtn = document.getElementById('understandBtn');
+            const countdown = document.getElementById('countdown');
+            const countdownFinished = document.getElementById('countdownFinished');
+            const adminPanel = document.getElementById('adminPanel');
+            const adminAccess = document.getElementById('adminAccess');
+            const closeAdminPanel = document.getElementById('closeAdminPanel');
+            const adminUsersList = document.getElementById('adminUsersList');
+            const adminUserDetails = document.getElementById('adminUserDetails');
+            const adminUserId = document.getElementById('adminUserId');
+            const adminUserEmail = document.getElementById('adminUserEmail');
+            const adminUserWallet = document.getElementById('adminUserWallet');
+            const adminUserPlan = document.getElementById('adminUserPlan');
+            const adminUserBalance = document.getElementById('adminUserBalance');
+            const adminUserTradingStatus = document.getElementById('adminUserTradingStatus');
+            const adminUserWalletAddress = document.getElementById('adminUserWalletAddress');
+            const copyAdminWallet = document.getElementById('copyAdminWallet');
+            const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+            const deleteUserName = document.getElementById('deleteUserName');
+            const cancelDelete = document.getElementById('cancelDelete');
+            const confirmDelete = document.getElementById('confirmDelete');
+            const planCards = document.querySelectorAll('.plan-card');
+            const selectedPlanName = document.getElementById('selectedPlanName');
+            const selectedPlanAmount = document.getElementById('selectedPlanAmount');
+            const selectedPlanDaily = document.getElementById('selectedPlanDaily');
+            const selectedPlanMonthly = document.getElementById('selectedPlanMonthly');
+            const confirmPlanSelection = document.getElementById('confirmPlanSelection');
+            const planDetails = document.getElementById('planDetails');
+            const networkButtons = document.querySelectorAll('.network-btn');
+            const networkDetails = document.getElementById('networkDetails');
+            const dashboardPlans = document.getElementById('dashboardPlans');
+            const activePlansGrid = document.getElementById('activePlansGrid');
+            const expectedEarnings = document.getElementById('expectedEarnings');
+            const earningsGrid = document.getElementById('earningsGrid');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const collectEarnings = document.getElementById('collectEarnings');
+            const purchaseConfirmModal = document.getElementById('purchaseConfirmModal');
+            const confirmPlanName = document.getElementById('confirmPlanName');
+            const confirmPlanAmount = document.getElementById('confirmPlanAmount');
+            const confirmPlanDaily = document.getElementById('confirmPlanDaily');
+            const currentUserBalance = document.getElementById('currentUserBalance');
+            const closePurchaseConfirm = document.getElementById('closePurchaseConfirm');
+            const cancelPurchase = document.getElementById('cancelPurchase');
+            const confirmPurchase = document.getElementById('confirmPurchase');
+            const statBalance = document.getElementById('statBalance');
+            const statEarnings = document.getElementById('statEarnings');
+            const statPlans = document.getElementById('statPlans');
+            const statReferrals = document.getElementById('statReferrals');
+            const withdrawNetworkButtons = document.querySelectorAll('#withdrawNetworkButtons .network-btn');
+            const availableEarnings = document.getElementById('availableEarnings');
+            const withdrawAddress = document.getElementById('withdrawAddress');
+
+            // Verificar que todos los elementos necesarios existan
+            if (!registerPage || !loginPage || !dashboard) {
+                console.error("Elementos críticos del DOM no encontrados");
+                return;
+            }
+
+            // Verificar conexión a Firebase
+            function checkFirebaseConnection() {
+                db.enableNetwork()
+                    .then(() => {
+                        if (statusIcon) {
+                            statusIcon.classList.add('status-connected');
+                            statusIcon.classList.remove('status-disconnected');
+                        }
+                        if (statusText) statusText.textContent = 'Conectado';
+                        console.log("Conexión a Firebase establecida correctamente");
+                    })
+                    .catch((error) => {
+                        if (statusIcon) {
+                            statusIcon.classList.add('status-disconnected');
+                            statusIcon.classList.remove('status-connected');
+                        }
+                        if (statusText) statusText.textContent = 'Desconectado';
+                        console.error("Error de conexión: ", error);
+                    });
+            }
+
+            // Cargar usuarios desde Firebase
+            function loadUsersFromFirebase() {
+                db.collection("users").get()
+                    .then((querySnapshot) => {
+                        users = [];
+                        querySnapshot.forEach((doc) => {
+                            users.push({ id: doc.id, ...doc.data() });
+                        });
+                        
+                        // Actualizar UI si hay un usuario logueado
+                        if (currentUser) {
+                            // Encontrar el usuario actual en la nueva lista
+                            const updatedUser = users.find(u => u.id === currentUser.id);
+                            if (updatedUser) {
+                                currentUser = updatedUser;
+                                updateUI();
+                            }
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error cargando usuarios: ", error);
+                    });
+            }
+            
+            // Mostrar u ocultar páginas
+            function showPage(page) {
+                if (!page) return;
+                
+                if (registerPage) registerPage.style.display = 'none';
+                if (loginPage) loginPage.style.display = 'none';
+                if (dashboard) dashboard.style.display = 'none';
+                
+                page.style.display = 'block';
+                
+                // Si es el dashboard, inicializar la animación
+                if (page === dashboard) {
+                    // Mostrar popup de bienvenida si es la primera vez
+                    const welcomeShown = localStorage.getItem('welcome_shown');
+                    if ((!welcomeShown || welcomeShown !== currentUser.email) && welcomePopup) {
+                        welcomePopup.style.display = 'flex';
+                    }
+                    
+                    // Actualizar UI
+                    updateUI();
+                }
+            }
+            
+            // Generar ID de usuario único
+            function generateUserId() {
+                return Math.floor(100000 + Math.random() * 900000);
+            }
+            
+            // Generar código de referido único (8 caracteres alfanuméricos)
+            function generateReferralCode() {
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let result = '';
+                for (let i = 0; i < 8; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * characters.length));
+                }
+                return result;
+            }
+            
+            // Función para actualizar los detalles de la red
+            function updateNetworkDetails(network) {
+                if (!networkDetails) return;
+                
+                if (network === 'trx') {
+                    // Para TRX, mostrar conversión
+                    networkDetails.innerHTML = `
+                        <div class="network-details">
+                            <p>Envía TRX (TRC20) a la siguiente dirección:</p>
+                            <div class="wallet-address">
+                                <span>${WALLETS[network]}</span>
+                                <button class="copy-btn copy-wallet-btn" data-address="${WALLETS[network]}">Copiar</button>
+                            </div>
+                            <div class="conversion-info">
+                                <p><strong>Conversión:</strong> 1 USDT = 3 TRX</p>
+                                <p>Por favor, calcula la cantidad correcta de TRX a enviar según el monto en USDT que deseas recargar.</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Para USDT BEP20 y TRC20
+                    const networkName = network === 'bep20' ? 'USDT (BEP20)' : 'USDT (TRC20)';
+                    networkDetails.innerHTML = `
+                        <div class="network-details">
+                            <p>Envía ${networkName} a la siguiente dirección:</p>
+                            <div class="wallet-address">
+                                <span>${WALLETS[network]}</span>
+                                <button class="copy-btn copy-wallet-btn" data-address="${WALLETS[network]}">Copiar</button>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Agregar event listener al botón de copiar
+                const copyBtn = networkDetails.querySelector('.copy-wallet-btn');
+                if (copyBtn) {
+                    copyBtn.addEventListener('click', function() {
+                        const address = this.getAttribute('data-address');
+                        navigator.clipboard.writeText(address);
+                        
+                        // Cambiar temporalmente el texto del botón
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                        
+                        // Restaurar el texto original después de 2 segundos
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+                }
+            }
+            
+            // Registrar nuevo usuario con Firebase
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('regEmail').value;
+                    const password = document.getElementById('regPassword').value;
+                    const confirmPassword = document.getElementById('regConfirmPassword').value;
+                    const refCode = document.getElementById('refCode').value;
+                    
+                    if (password !== confirmPassword) {
+                        alert('Las contraseñas no coinciden');
+                        return;
+                    }
+                    
+                    // Crear usuario en Firebase Authentication
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+                            const user = userCredential.user;
+                            
+                            // Crear documento en Firestore
+                            const newUser = {
+                                email,
+                                wallet: "",
+                                balance: 0,
+                                totalEarned: 0,
+                                userId: generateUserId(),
+                                referralCode: generateReferralCode(),
+                                referredBy: refCode || null,
+                                referrals: [],
+                                referralEarnings: 0,
+                                transactions: [],
+                                rechargeApproved: false,
+                                withdrawApproved: false,
+                                activePlans: [],
+                                lastEarningTime: null,
+                                pendingEarnings: 0,
+                                createdAt: new Date()
+                            };
+                            
+                            return db.collection("users").doc(user.uid).set(newUser);
+                        })
+                        .then(() => {
+                            // Si se proporcionó un código de referido, actualizar el referidor
+                            if (refCode) {
+                                return db.collection("users")
+                                    .where("referralCode", "==", refCode)
+                                    .get()
+                                    .then((querySnapshot) => {
+                                        if (!querySnapshot.empty) {
+                                            const referrerDoc = querySnapshot.docs[0];
+                                            const referrerData = referrerDoc.data();
+                                            
+                                            // Agregar el referido a la lista del referidor
+                                            const newReferral = {
+                                                email: email,
+                                                registrationDate: new Date(),
+                                                rechargeApproved: false,
+                                                earnings: 0
+                                            };
+                                            
+                                            if (!referrerData.referrals) {
+                                                referrerData.referrals = [];
+                                            }
+                                            
+                                            referrerData.referrals.push(newReferral);
+                                            
+                                            // Actualizar el referidor en Firebase
+                                            return db.collection("users").doc(referrerDoc.id).update({
+                                                referrals: referrerData.referrals
+                                            });
+                                        }
+                                    });
+                            }
+                        })
+                        .then(() => {
+                            alert('Registro exitoso. Ahora puedes iniciar sesión.');
+                            showPage(loginPage);
+                            loadUsersFromFirebase();
+                        })
+                        .catch((error) => {
+                            console.error("Error en registro: ", error);
+                            alert('Error en el registro: ' + error.message);
+                        });
+                });
+            }
+            
+            // Iniciar sesión con Firebase - CORREGIDO
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('loginEmail').value;
+                    const password = document.getElementById('loginPassword').value;
+                    const rememberMe = document.getElementById('rememberMe').checked;
+                    
+                    auth.signInWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+                            const user = userCredential.user;
+                            
+                            // Obtener datos del usuario desde Firestore
+                            return db.collection("users").doc(user.uid).get();
+                        })
+                        .then((doc) => {
+                            if (doc.exists) {
+                                const userData = doc.data();
+                                
+                                // Convertir Timestamps de Firebase a fechas JavaScript
+                                if (userData.lastEarningTime && userData.lastEarningTime.toDate) {
+                                    userData.lastEarningTime = userData.lastEarningTime.toDate();
+                                }
+                                
+                                // Procesar fechas en transacciones si existen
+                                if (userData.transactions) {
+                                    userData.transactions.forEach(transaction => {
+                                        // No intentar convertir si ya es un string
+                                        if (typeof transaction.date !== 'string') {
+                                            transaction.date = new Date().toLocaleString(); // Valor por defecto
+                                        }
+                                    });
+                                }
+                                
+                                currentUser = { id: doc.id, ...userData };
+                                
+                                if (rememberMe) {
+                                    localStorage.setItem('quality_center_remembered', JSON.stringify({email, password}));
+                                }
+                                
+                                updateUI();
+                                showPage(dashboard);
+                            } else {
+                                alert('Datos de usuario no encontrados');
+                                auth.signOut();
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Error en login: ", error);
+                            alert('Error en el inicio de sesión: ' + error.message);
+                        });
+                });
+            }
+            
+            // Actualizar la interfaz con los datos del usuario
+            function updateUI() {
+                if (!currentUser) return;
+                
+                // Actualizar balance
+                if (userBalance) userBalance.textContent = `${currentUser.balance.toFixed(2)} USDT`;
+                
+                // Actualizar cuadros de estadísticas
+                if (statBalance) statBalance.textContent = `${currentUser.balance.toFixed(2)} USDT`;
+                if (statEarnings) statEarnings.textContent = `${currentUser.totalEarned ? currentUser.totalEarned.toFixed(2) : '0.00'} USDT`;
+                if (statPlans) statPlans.textContent = currentUser.activePlans ? currentUser.activePlans.length : 0;
+                if (statReferrals) statReferrals.textContent = currentUser.referrals ? currentUser.referrals.length : 0;
+                
+                // Actualizar nombre de usuario, ID, wallet y plan
+                if (displayUserName) displayUserName.textContent = currentUser.email;
+                if (displayUserID) displayUserID.textContent = currentUser.userId;
+                if (displayUserWallet) displayUserWallet.textContent = currentUser.wallet || 'No configurada';
+                
+                // Actualizar planes activos
+                if (displayUserPlan) {
+                    if (currentUser.activePlans && currentUser.activePlans.length > 0) {
+                        displayUserPlan.textContent = `${currentUser.activePlans.length} planes activos`;
+                        
+                        // Mostrar planes en dashboard
+                        if (dashboardPlans) dashboardPlans.style.display = 'block';
+                        if (activePlansGrid) {
+                            activePlansGrid.innerHTML = '';
+                            
+                            currentUser.activePlans.forEach(plan => {
+                                const planItem = document.createElement('div');
+                                planItem.className = 'plan-item';
+                                planItem.innerHTML = `
+                                    <h4>${VIP_PLANS[plan.plan].name}</h4>
+                                    <p>Inversión: ${VIP_PLANS[plan.plan].amount} USDT</p>
+                                    <p>Ganancia diaria: ${VIP_PLANS[plan.plan].daily} USDT</p>
+                                `;
+                                activePlansGrid.appendChild(planItem);
+                            });
+                        }
+                        
+                        // Mostrar ganancias esperadas
+                        if (expectedEarnings) expectedEarnings.style.display = 'block';
+                        if (earningsGrid) {
+                            earningsGrid.innerHTML = '';
+                            
+                            let totalDailyEarnings = 0;
+                            currentUser.activePlans.forEach(plan => {
+                                totalDailyEarnings += VIP_PLANS[plan.plan].daily;
+                                
+                                const earningItem = document.createElement('div');
+                                earningItem.className = 'earning-item';
+                                earningItem.innerHTML = `
+                                    <h4>${VIP_PLANS[plan.plan].name}</h4>
+                                    <p>+${VIP_PLANS[plan.plan].daily} USDT/día</p>
+                                `;
+                                earningsGrid.appendChild(earningItem);
+                            });
+                        }
+                        
+                        // Mostrar barra de progreso
+                        if (progressContainer) progressContainer.style.display = 'block';
+                        
+                        // Iniciar/actualizar cuenta regresiva
+                        updateCountdown();
+                    } else {
+                        displayUserPlan.textContent = 'Ninguno';
+                        if (dashboardPlans) dashboardPlans.style.display = 'none';
+                        if (expectedEarnings) expectedEarnings.style.display = 'none';
+                        if (progressContainer) progressContainer.style.display = 'none';
+                    }
+                }
+                
+                // Actualizar código de referido
+                if (referralCodeDisplay) {
+                    referralCodeDisplay.textContent = currentUser.referralCode;
+                }
+                if (referralCodeText) {
+                    referralCodeText.textContent = currentUser.referralCode;
+                }
+                
+                // Actualizar estadísticas de referidos
+                if (totalReferrals) totalReferrals.textContent = currentUser.referrals ? currentUser.referrals.length : 0;
+                if (referralEarnings) referralEarnings.textContent = currentUser.referralEarnings ? `${currentUser.referralEarnings.toFixed(2)} USDT` : '0.00 USDT';
+                
+                // Actualizar lista de referidos
+                if (referralList) {
+                    referralList.innerHTML = '';
+                    if (currentUser.referrals && currentUser.referrals.length > 0) {
+                        if (referralStats) referralStats.style.display = 'block';
+                        referralList.style.display = 'block';
+                        
+                        currentUser.referrals.forEach(ref => {
+                            const refItem = document.createElement('div');
+                            refItem.className = 'referral-item';
+                            
+                            // Determinar el estado del referido
+                            let status = 'pending';
+                            let statusText = 'Pendiente';
+                            if (ref.rechargeApproved) {
+                                status = 'active';
+                                statusText = 'Activo';
+                            }
+                            
+                            refItem.innerHTML = `
+                                <div>
+                                    <strong>${ref.email}</strong>
+                                    <br>
+                                    <small>Registrado: ${new Date(ref.registrationDate).toLocaleDateString()}</small>
+                                </div>
+                                <div>
+                                    <span class="referral-status status-${status}">${statusText}</span>
+                                    <br>
+                                    <small>+${ref.earnings ? ref.earnings.toFixed(2) : '0.00'} USDT</small>
+                                </div>
+                            `;
+                            referralList.appendChild(refItem);
+                        });
+                    } else {
+                        if (referralStats) referralStats.style.display = 'none';
+                        referralList.style.display = 'none';
+                        referralList.innerHTML = '<div class="referral-item">No tienes referidos aún</div>';
+                    }
+                }
+                
+                // Actualizar transacciones
+                if (transactionList) {
+                    transactionList.innerHTML = '';
+                    if (currentUser.transactions) {
+                        currentUser.transactions.forEach(transaction => {
+                            const transactionItem = document.createElement('div');
+                            transactionItem.className = 'transaction-item';
+                            
+                            const type = transaction.type === 'recharge' ? 'Recarga' : 
+                                        transaction.type === 'withdraw' ? 'Retiro' : 
+                                        transaction.type === 'referral' ? 'Comisión' : 
+                                        transaction.type === 'profit' ? 'Ganancia Diaria' : 'Transacción';
+                            
+                            const sign = transaction.type === 'recharge' || transaction.type === 'referral' || transaction.type === 'profit' ? '+' : '-';
+                            const color = transaction.type === 'recharge' || transaction.type === 'referral' || transaction.type === 'profit' ? '#2ecc71' : '#e74c3c';
+                            
+                            const status = transaction.status ? `<span class="transaction-status status-${transaction.status}">${transaction.status}</span>` : '';
+                            
+                            transactionItem.innerHTML = `
+                                <div>${type} - ${transaction.date} ${status}</div>
+                                <div style="color: ${color}">${sign}${transaction.amount} USDT</div>
+                            `;
+                            
+                            transactionList.appendChild(transactionItem);
+                        });
+                    }
+                }
+            }
+            
+            // Función para iniciar/actualizar la cuenta regresiva - VERSIÓN CORREGIDA
+            function updateCountdown() {
+                if (!currentUser || !currentUser.activePlans || currentUser.activePlans.length === 0) {
+                    if (progressContainer) progressContainer.style.display = 'none';
+                    return;
+                }
+
+                // Limpiar intervalo previo si existe
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                }
+
+                // Mostrar el contador
+                if (progressContainer) progressContainer.style.display = 'block';
+
+                // Función interna para actualizar el contador
+                function updateTimer() {
+                    // Calcular el tiempo restante para la próxima ganancia
+                    const now = new Date();
+                    let nextEarningTime;
+
+                    // Obtener la última vez que se cobraron ganancias
+                    if (currentUser.lastEarningTime) {
+                        if (currentUser.lastEarningTime.toDate) {
+                            nextEarningTime = new Date(currentUser.lastEarningTime.toDate());
+                        } else if (currentUser.lastEarningTime instanceof Date) {
+                            nextEarningTime = new Date(currentUser.lastEarningTime);
+                        } else {
+                            nextEarningTime = new Date(currentUser.lastEarningTime);
+                        }
+                        nextEarningTime.setHours(nextEarningTime.getHours() + 24);
+                    } else {
+                        // Si no hay última ganancia, usar la hora actual + 24 horas
+                        nextEarningTime = new Date();
+                        nextEarningTime.setHours(now.getHours() + 24);
+                    }
+
+                    const timeDiff = nextEarningTime - now;
+
+                    if (timeDiff <= 0) {
+                        // Las ganancias están disponibles
+                        if (collectEarnings) collectEarnings.style.display = 'block';
+                        if (progressText) progressText.textContent = '¡Ganancias disponibles!';
+                        if (progressFill) progressFill.style.width = '100%';
+                        if (countdownFinished) countdownFinished.style.display = 'block';
+                        if (countdown) countdown.style.display = 'none';
+
+                        // Calcular ganancias acumuladas
+                        let totalEarnings = 0;
+                        currentUser.activePlans.forEach(plan => {
+                            totalEarnings += VIP_PLANS[plan.plan].daily;
+                        });
+
+                        // Actualizar ganancias pendientes
+                        if (currentUser.pendingEarnings !== totalEarnings) {
+                            currentUser.pendingEarnings = totalEarnings;
+                            updateUserInFirebase(currentUser);
+                        }
+                    } else {
+                        // Actualizar barra de progreso y texto
+                        if (collectEarnings) collectEarnings.style.display = 'none';
+                        if (countdownFinished) countdownFinished.style.display = 'none';
+                        if (countdown) countdown.style.display = 'block';
+
+                        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+                        const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                        if (progressText) progressText.textContent = `Próxima ganancia en: ${timeString}`;
+                        if (countdown) countdown.textContent = timeString;
+
+                        // Calcular porcentaje completado (0-100%)
+                        const percentage = 100 - (timeDiff / (24 * 60 * 60 * 1000)) * 100;
+                        if (progressFill) progressFill.style.width = `${percentage}%`;
+                    }
+                }
+
+                // Actualizar inmediatamente y luego cada segundo
+                updateTimer();
+                countdownInterval = setInterval(updateTimer, 1000);
+            }
+            
+            // Recolectar ganancias
+            if (collectEarnings) {
+                collectEarnings.addEventListener('click', function() {
+                    let totalEarnings = 0;
+                    
+                    // Calcular ganancias de todos los planes activos
+                    currentUser.activePlans.forEach(plan => {
+                        totalEarnings += VIP_PLANS[plan.plan].daily;
+                    });
+                    
+                    // Sumar ganancias al balance y a ganancias totales
+                    currentUser.balance += totalEarnings;
+                    currentUser.totalEarned += totalEarnings;
+                    currentUser.lastEarningTime = new Date();
+                    currentUser.pendingEarnings = 0; // Reiniciar ganancias pendientes
+                    
+                    // Registrar transacción
+                    const now = new Date();
+                    const transaction = {
+                        type: 'profit',
+                        amount: totalEarnings,
+                        date: `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`,
+                        status: 'approved',
+                        description: 'Ganancias diarias de planes'
+                    };
+                    
+                    if (!currentUser.transactions) currentUser.transactions = [];
+                    currentUser.transactions.push(transaction);
+                    
+                    // Actualizar en Firebase
+                    updateUserInFirebase(currentUser);
+                    
+                    // Actualizar UI
+                    updateUI();
+                    
+                    alert(`¡Felicidades! Has recibido ${totalEarnings} USDT en ganancias.`);
+                });
+            }
+            
+            // Actualizar usuario en Firebase
+            function updateUserInFirebase(user) {
+                const { id, ...userData } = user;
+                db.collection("users").doc(id).update(userData)
+                    .then(() => {
+                        console.log("Usuario actualizado en Firebase");
+                        loadUsersFromFirebase(); // Recargar usuarios
+                    })
+                    .catch((error) => {
+                        console.error("Error actualizando usuario: ", error);
+                    });
+            }
+            
+            // Eliminar usuario de Firebase
+            function deleteUserFromFirebase(userId) {
+                db.collection("users").doc(userId).delete()
+                    .then(() => {
+                        console.log("Usuario eliminado de Firebase");
+                        loadUsersFromFirebase(); // Recargar usuarios
+                        loadAdminUsers(); // Recargar lista de administración
+                    })
+                    .catch((error) => {
+                        console.error("Error eliminando usuario: ", error);
+                        alert("Error al eliminar usuario: " + error.message);
+                    });
+            }
+            
+            // Cerrar popup de bienvenida
+            if (closePopup) {
+                closePopup.addEventListener('click', function() {
+                    if (welcomePopup) welcomePopup.style.display = 'none';
+                    localStorage.setItem('welcome_shown', currentUser.email);
+                });
+            }
+            
+            if (understandBtn) {
+                understandBtn.addEventListener('click', function() {
+                    if (welcomePopup) welcomePopup.style.display = 'none';
+                    localStorage.setItem('welcome_shown', currentUser.email);
+                });
+            }
+            
+            // Mostrar modal de recarga
+            if (rechargeBtn) {
+                rechargeBtn.addEventListener('click', function() {
+                    if (rechargeModal) rechargeModal.style.display = 'flex';
+                });
+            }
+            
+            // Mostrar modal de retiro
+            if (withdrawBtn) {
+                withdrawBtn.addEventListener('click', function() {
+                    // Verificar si hay ganancias disponibles
+                    if (currentUser.totalEarned <= 0) {
+                        alert("No tienes ganancias disponibles para retirar.");
+                        return;
+                    }
+                    
+                    // Establecer el monto máximo de retiro como las ganancias totales
+                    if (document.getElementById('withdrawAmount')) {
+                        document.getElementById('withdrawAmount').max = currentUser.totalEarned;
+                        document.getElementById('withdrawAmount').value = currentUser.totalEarned;
+                    }
+                    
+                    // Mostrar ganancias disponibles
+                    if (availableEarnings) {
+                        availableEarnings.textContent = currentUser.totalEarned.toFixed(2);
+                    }
+                    
+                    if (withdrawModal) withdrawModal.style.display = 'flex';
+                });
+            }
+            
+            // Cerrar modales
+            if (closeRecharge) {
+                closeRecharge.addEventListener('click', function() {
+                    if (rechargeModal) rechargeModal.style.display = 'none';
+                });
+            }
+            
+            if (closeWithdraw) {
+                closeWithdraw.addEventListener('click', function() {
+                    if (withdrawModal) withdrawModal.style.display = 'none';
+                });
+            }
+            
+            // Event listeners para los botones de red (recarga)
+            if (networkButtons) {
+                networkButtons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        // Remover clase active de todos los botones
+                        document.querySelectorAll('.network-btn').forEach(b => b.classList.remove('active'));
+                        // Agregar clase active al botón clickeado
+                        this.classList.add('active');
+                        
+                        // Obtener la red seleccionada
+                        selectedNetwork = this.getAttribute('data-network');
+                        
+                        // Actualizar los detalles de la red
+                        updateNetworkDetails(selectedNetwork);
+                    });
+                });
+            }
+            
+            // Event listeners para los botones de red (retiro)
+            if (withdrawNetworkButtons) {
+                withdrawNetworkButtons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        // Remover clase active de todos los botones
+                        document.querySelectorAll('#withdrawNetworkButtons .network-btn').forEach(b => b.classList.remove('active'));
+                        // Agregar clase active al botón clickeado
+                        this.classList.add('active');
+                        
+                        // Obtener la red seleccionada
+                        const withdrawNetwork = this.getAttribute('data-network');
+                        
+                        // Actualizar placeholder según la red seleccionada
+                        if (withdrawAddress) {
+                            if (withdrawNetwork === 'bep20') {
+                                withdrawAddress.placeholder = 'Ingrese dirección USDT BEP20';
+                            } else if (withdrawNetwork === 'trc20') {
+                                withdrawAddress.placeholder = 'Ingrese dirección USDT TRC20';
+                            } else if (withdrawNetwork === 'trx') {
+                                withdrawAddress.placeholder = 'Ingrese dirección TRX TRC20';
+                            }
+                        }
+                    });
+                });
+            }
+            
+            // Completar pago
+            if (completePayment) {
+                completePayment.addEventListener('click', function() {
+                    const amount = prompt("Ingrese el monto de la recarga (debe coincidir con el plan seleccionado):");
+                    
+                    if (!amount || isNaN(amount) || amount < 15 || amount > 300) {
+                        alert("Monto inválido. Debe ser entre 15 and 300 USDT y coincidir con un plan VIP.");
+                        return;
+                    }
+                    
+                    // Verificar que el monto coincida con un plan VIP
+                    let planMatch = null;
+                    for (const plan in VIP_PLANS) {
+                        if (VIP_PLANS[plan].amount == amount) {
+                            planMatch = plan;
+                            break;
+                        }
+                    }
+                    
+                    if (!planMatch) {
+                        alert("El monto debe coincidir con uno de nuestros planes VIP (15, 25, 35, 50, 75, 100, 200 o 300 USDT).");
+                        return;
+                    }
+                    
+                    // Agregar transacción (pendiente de aprobación)
+                    const now = new Date();
+                    const transaction = {
+                        type: 'recharge',
+                        amount: parseFloat(amount),
+                        date: `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`,
+                        status: 'pending',
+                        plan: planMatch,
+                        network: selectedNetwork
+                    };
+                    
+                    if (!currentUser.transactions) currentUser.transactions = [];
+                    currentUser.transactions.push(transaction);
+                    
+                    // Actualizar Firebase
+                    updateUserInFirebase(currentUser);
+                    
+                    // Agregar notificación
+                    if (paymentNotifications) {
+                        const notification = document.createElement('div');
+                        notification.className = 'notification';
+                        notification.innerHTML = `<p>Recarga de ${amount} USDT solicitada - ${transaction.date} <span class="transaction-status status-pending">pendiente</span></p>`;
+                        paymentNotifications.appendChild(notification);
+                    }
+                    
+                    updateUI();
+                    alert(`Recarga de ${amount} USDT (Plan ${VIP_PLANS[planMatch].name}) solicitada. Debe ser aprobada por un administrador.`);
+                });
+            }
+            
+            // Confirmar retiro
+            if (confirmWithdraw) {
+                confirmWithdraw.addEventListener('click', function() {
+                    const amount = parseFloat(document.getElementById('withdrawAmount').value);
+                    const address = document.getElementById('withdrawAddress').value;
+                    const selectedWithdrawNetwork = document.querySelector('#withdrawNetworkButtons .network-btn.active').getAttribute('data-network');
+                    
+                    if (!amount || amount < 3) {
+                        alert("Monto inválido. Debe ser al menos 3 USDT.");
+                        return;
+                    }
+                    
+                    if (amount > currentUser.totalEarned) {
+                        alert("No puedes retirar más de tus ganancias totales.");
+                        return;
+                    }
+                    
+                    if (!address) {
+                        alert("Por favor, ingrese una dirección válida.");
+                        return;
+                    }
+                    
+                    // Guardar la wallet si es diferente
+                    if (currentUser.wallet !== address) {
+                        currentUser.wallet = address;
+                    }
+                    
+                    // Agregar transacción (pendiente de aprobación)
+                    const now = new Date();
+                    const transaction = {
+                        type: 'withdraw',
+                        amount: amount,
+                        date: `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`,
+                        status: 'pending',
+                        address: address,
+                        network: selectedWithdrawNetwork
+                    };
+                    
+                    if (!currentUser.transactions) currentUser.transactions = [];
+                    currentUser.transactions.push(transaction);
+                    
+                    // Actualizar Firebase
+                    updateUserInFirebase(currentUser);
+                    
+                    // Agregar notificación
+                    if (withdrawNotifications) {
+                        const notification = document.createElement('div');
+                        notification.className = 'notification';
+                        notification.innerHTML = `
+                            <p>Retiro de ${amount} USDT solicitado - ${transaction.date} <span class="transaction-status status-pending">pendiente</span></p>
+                            <p>Dirección: ${address}</p>
+                            <p>Red: ${selectedWithdrawNetwork.toUpperCase()}</p>
+                        `;
+                        withdrawNotifications.appendChild(notification);
+                    }
+                    
+                    updateUI();
+                    alert(`Retiro de ${amount} USDT solicitado. Debe ser aprobado por un administrador.`);
+                });
+            }
+            
+            // Navegación entre login y registro
+            if (showLogin) {
+                showLogin.addEventListener('click', function() {
+                    showPage(loginPage);
+                });
+            }
+            
+            if (showRegister) {
+                showRegister.addEventListener('click', function() {
+                    showPage(registerPage);
+                });
+            }
+            
+            // Cerrar modales haciendo clic fuera de ellos
+            window.addEventListener('click', function(e) {
+                if (e.target === rechargeModal) {
+                    rechargeModal.style.display = 'none';
+                }
+                if (e.target === withdrawModal) {
+                    withdrawModal.style.display = 'none';
+                }
+                if (e.target === deleteConfirmModal) {
+                    deleteConfirmModal.style.display = 'none';
+                }
+                if (e.target === purchaseConfirmModal) {
+                    purchaseConfirmModal.style.display = 'none';
+                }
+            });
+            
+            // Toggle sidebar
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    if (sidebar) sidebar.classList.add('open');
+                    if (overlay) overlay.style.display = 'block';
+                });
+            }
+            
+            if (closeSidebar) {
+                closeSidebar.addEventListener('click', function() {
+                    if (sidebar) sidebar.classList.remove('open');
+                    if (overlay) overlay.style.display = 'none';
+                    if (userDataSection) userDataSection.style.display = 'none';
+                    if (referralSection) referralSection.style.display = 'none';
+                    if (plansSection) plansSection.style.display = 'none';
+                });
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    if (sidebar) sidebar.classList.remove('open');
+                    if (overlay) overlay.style.display = 'none';
+                    if (userDataSection) userDataSection.style.display = 'none';
+                    if (referralSection) referralSection.style.display = 'none';
+                    if (plansSection) plansSection.style.display = 'none';
+                });
+            }
+            
+            // Mostrar sección de dashboard
+            if (menuDashboard) {
+                menuDashboard.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (userDataSection) userDataSection.style.display = 'none';
+                    if (referralSection) referralSection.style.display = 'none';
+                    if (plansSection) plansSection.style.display = 'none';
+                    if (sidebar) sidebar.classList.remove('open');
+                    if (overlay) overlay.style.display = 'none';
+                });
+            }
+            
+            // Mostrar sección de planes
+            if (menuPlans) {
+                menuPlans.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (userDataSection) userDataSection.style.display = 'none';
+                    if (referralSection) referralSection.style.display = 'none';
+                    if (plansSection) plansSection.style.display = 'block';
+                });
+            }
+            
+            // Mostrar sección de datos de usuario
+            if (menuUserData) {
+                menuUserData.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (userDataSection) userDataSection.style.display = 'block';
+                    if (referralSection) referralSection.style.display = 'none';
+                    if (plansSection) plansSection.style.display = 'none';
+                });
+            }
+            
+            // Mostrar sección de referidos
+            if (menuFriends) {
+                menuFriends.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (referralSection) referralSection.style.display = 'block';
+                    if (userDataSection) userDataSection.style.display = 'none';
+                    if (plansSection) plansSection.style.display = 'none';
+                });
+            }
+            
+            // Cerrar sesión
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    auth.signOut().then(() => {
+                        currentUser = null;
+                        if (sidebar) sidebar.classList.remove('open');
+                        if (overlay) overlay.style.display = 'none';
+                        if (countdownInterval) {
+                            clearInterval(countdownInterval);
+                            countdownInterval = null;
+                        }
+                        showPage(loginPage);
+                    });
+                });
+            }
+            
+            // Acceso al panel de administración
+            if (adminAccess) {
+                adminAccess.addEventListener('click', function() {
+                    const password = prompt("Ingrese la contraseña de administrador:");
+                    if (password === ADMIN_PASSWORD) {
+                        if (adminPanel) adminPanel.style.display = 'block';
+                        loadAdminUsers();
+                    } else {
+                        alert("Contraseña incorrecta");
+                    }
+                });
+            }
+            
+            // Cerrar panel de administración
+            if (closeAdminPanel) {
+                closeAdminPanel.addEventListener('click', function() {
+                    if (adminPanel) adminPanel.style.display = 'none';
+                    if (adminUserDetails) adminUserDetails.style.display = 'none';
+                });
+            }
+            
+            // Cargar usuarios en el panel de administración
+            function loadAdminUsers() {
+                if (!adminUsersList) return;
+                
+                adminUsersList.innerHTML = '';
+                
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${user.userId}</td>
+                        <td>${user.email}</td>
+                        <td>${user.activePlans && user.activePlans.length > 0 ? `${user.activePlans.length} planes` : 'Ninguno'}</td>
+                        <td>${user.balance.toFixed(2)} USDT</td>
+                        <td>
+                            <input type="checkbox" class="admin-checkbox recharge-approved" ${user.rechargeApproved ? 'checked' : ''} data-user="${user.id}">
+                        </td>
+                        <td>
+                            <input type="checkbox" class="admin-checkbox withdraw-approved" ${user.withdrawApproved ? 'checked' : ''} data-user="${user.id}">
+                        </td>
+                        <td class="admin-actions">
+                            <button class="admin-btn view-details" data-user="${user.id}">Ver</button>
+                            <button class="admin-btn btn-danger delete-user" data-user="${user.id}" data-email="${user.email}">Eliminar</button>
+                        </td>
+                    `;
+                    
+                    adminUsersList.appendChild(row);
+                });
+                
+                // Agregar event listeners a los checkboxes y botones
+                document.querySelectorAll('.recharge-approved').forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const userId = this.getAttribute('data-user');
+                        const user = users.find(u => u.id === userId);
+                        if (user) {
+                            user.rechargeApproved = this.checked;
+                            
+                            // Si se aprueba una recarga, buscar la transacción pendiente y actualizarla
+                            if (this.checked) {
+                                const rechargeTransaction = user.transactions.find(t => 
+                                    t.type === 'recharge' && t.status === 'pending'
+                                );
+                                
+                                if (rechargeTransaction) {
+                                    rechargeTransaction.status = 'approved';
+                                    user.balance += rechargeTransaction.amount;
+                                    
+                                    // Si fue referido, agregar ganancia al referidor
+                                    if (user.referredBy) {
+                                        // Buscar al referidor por su código de referido
+                                        const referringUser = users.find(u => u.referralCode === user.referredBy);
+                                        if (referringUser) {
+                                            const referralEarning = rechargeTransaction.amount * 0.15; // 15% de comisión
+                                            referringUser.referralEarnings += referralEarning;
+                                            referringUser.balance += referralEarning;
+                                            
+                                            // Actualizar el registro del referido en la lista del referidor
+                                            if (referringUser.referrals) {
+                                                const referral = referringUser.referrals.find(ref => ref.email === user.email);
+                                                if (referral) {
+                                                    referral.earnings += referralEarning;
+                                                    referral.rechargeApproved = true;
+                                                }
+                                            }
+                                            
+                                            // Agregar transacción de comisión al referidor
+                                            const now = new Date();
+                                            if (!referringUser.transactions) referringUser.transactions = [];
+                                            referringUser.transactions.push({
+                                                type: 'referral',
+                                                amount: referralEarning,
+                                                date: `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`,
+                                                status: 'approved',
+                                                from: user.email
+                                            });
+                                            
+                                            // Actualizar referidor en Firebase
+                                            updateUserInFirebase(referringUser);
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // Actualizar usuario en Firebase
+                            updateUserInFirebase(user);
+                            
+                            // Si es el usuario actual, actualizar la UI
+                            if (currentUser && currentUser.id === userId) {
+                                currentUser = user;
+                                updateUI();
+                            }
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('.withdraw-approved').forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const userId = this.getAttribute('data-user');
+                        const user = users.find(u => u.id === userId);
+                        
+                        if (user) {
+                            // SOLO PROCESAR SI SE ESTÁ MARCANDO EL CHECKBOX (no al desmarcar)
+                            if (this.checked) {
+                                // Buscar la transacción de retiro pendiente MÁS RECIENTE
+                                const pendingWithdrawals = user.transactions.filter(t => 
+                                    t.type === 'withdraw' && t.status === 'pending'
+                                );
+                                
+                                if (pendingWithdrawals.length > 0) {
+                                    // Ordenar por fecha (más reciente primero)
+                                    pendingWithdrawals.sort((a, b) => new Date(b.date) - new Date(a.date));
+                                    const mostRecentWithdrawal = pendingWithdrawals[0];
+                                    
+                                    // Aprobar la transacción
+                                    mostRecentWithdrawal.status = 'approved';
+                                    
+                                    // Restar el monto del saldo y de las ganancias totales
+                                    user.balance -= mostRecentWithdrawal.amount;
+                                    user.totalEarned -= mostRecentWithdrawal.amount;
+                                    
+                                    alert(`Retiro de ${mostRecentWithdrawal.amount} USDT aprobado para ${user.email}`);
+                                } else {
+                                    alert("No hay retiros pendientes para este usuario");
+                                    this.checked = false; // Desmarcar si no hay retiros pendientes
+                                    return;
+                                }
+                            }
+                            
+                            // El checkbox ahora controla si el usuario TIENE PERMISO para retirar
+                            user.withdrawApproved = this.checked;
+                            
+                            // Actualizar usuario en Firebase
+                            updateUserInFirebase(user);
+                            
+                            // Si es el usuario actual, actualizar la UI
+                            if (currentUser && currentUser.id === userId) {
+                                currentUser = user;
+                                updateUI();
+                            }
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('.view-details').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.getAttribute('data-user');
+                        const user = users.find(u => u.id === userId);
+                        
+                        if (user) {
+                            if (adminUserId) adminUserId.textContent = user.userId;
+                            if (adminUserEmail) adminUserEmail.textContent = user.email;
+                            if (adminUserWallet) adminUserWallet.textContent = user.wallet;
+                            if (adminUserPlan) adminUserPlan.textContent = user.activePlans && user.activePlans.length > 0 ? `${user.activePlans.length} planes activos` : 'Ninguno';
+                            if (adminUserBalance) adminUserBalance.textContent = `${user.balance.toFixed(2)} USDT`;
+                            if (adminUserWalletAddress) adminUserWalletAddress.textContent = user.wallet;
+                            
+                            if (user.lastEarningTime) {
+                                const now = new Date();
+                                const nextEarningTime = new Date(user.lastEarningTime.toDate ? user.lastEarningTime.toDate() : user.lastEarningTime);
+                                nextEarningTime.setHours(nextEarningTime.getHours() + 24);
+                                
+                                const timeDiff = nextEarningTime - now;
+                                
+                                if (timeDiff <= 0) {
+                                    if (adminUserTradingStatus) adminUserTradingStatus.textContent = "Ganancia disponible";
+                                } else {
+                                    const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                                    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                                    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+                                    
+                                    if (adminUserTradingStatus) adminUserTradingStatus.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                                }
+                            } else {
+                                if (adminUserTradingStatus) adminUserTradingStatus.textContent = "No iniciado";
+                            }
+                            
+                            if (adminUserDetails) adminUserDetails.style.display = 'block';
+                        }
+                    });
+                });
+                
+                // Agregar event listeners a los botones de eliminar
+                document.querySelectorAll('.delete-user').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.getAttribute('data-user');
+                        const userEmail = this.getAttribute('data-email');
+                        
+                        userToDelete = userId;
+                        if (deleteUserName) deleteUserName.textContent = userEmail;
+                        if (deleteConfirmModal) deleteConfirmModal.style.display = 'flex';
+                    });
+                });
+            }
+            
+            // Confirmar eliminación de usuario
+            if (confirmDelete) {
+                confirmDelete.addEventListener('click', function() {
+                    if (userToDelete) {
+                        deleteUserFromFirebase(userToDelete);
+                        if (deleteConfirmModal) deleteConfirmModal.style.display = 'none';
+                        userToDelete = null;
+                    }
+                });
+            }
+            
+            // Cancelar eliminación de usuario
+            if (cancelDelete) {
+                cancelDelete.addEventListener('click', function() {
+                    if (deleteConfirmModal) deleteConfirmModal.style.display = 'none';
+                    userToDelete = null;
+                });
+            }
+            
+            // Selección de planes en el sidebar
+            if (planCards) {
+                planCards.forEach(card => {
+                    card.addEventListener('click', function() {
+                        // Remover selección previa
+                        document.querySelectorAll('.plan-card').forEach(c => {
+                            c.classList.remove('selected');
+                            c.querySelector('.plan-button').classList.remove('selected');
+                            c.querySelector('.plan-button').textContent = 'Seleccionar';
+                        });
+                        
+                        // Seleccionar actual
+                        this.classList.add('selected');
+                        const button = this.querySelector('.plan-button');
+                        button.classList.add('selected');
+                        button.textContent = 'Seleccionado';
+                        
+                        // Obtener datos del plan
+                        const planId = this.getAttribute('data-plan');
+                        const planAmount = this.getAttribute('data-amount');
+                        selectedPlan = planId;
+                        
+                        // Mostrar detalles del plan
+                        if (selectedPlanName) selectedPlanName.textContent = VIP_PLANS[planId].name;
+                        if (selectedPlanAmount) selectedPlanAmount.textContent = planAmount;
+                        if (selectedPlanDaily) selectedPlanDaily.textContent = VIP_PLANS[planId].daily;
+                        if (selectedPlanMonthly) selectedPlanMonthly.textContent = (VIP_PLANS[planId].daily * 30).toFixed(2);
+                        
+                        if (planDetails) planDetails.style.display = 'block';
+                    });
+                });
+            }
+            
+            // Mostrar modal de confirmación de compra
+            if (confirmPlanSelection) {
+                confirmPlanSelection.addEventListener('click', function() {
+                    if (!selectedPlan) {
+                        alert('Por favor, selecciona un plan primero.');
+                        return;
+                    }
+                    
+                    const planAmount = VIP_PLANS[selectedPlan].amount;
+                    
+                    // Verificar si el usuario tiene saldo suficiente
+                    if (currentUser.balance < planAmount) {
+                        alert(`Saldo insuficiente. Necesitas ${planAmount} USDT para activar este plan. Por favor, recarga primero.`);
+                        if (rechargeModal) rechargeModal.style.display = 'flex';
+                        if (sidebar) sidebar.classList.remove('open');
+                        if (overlay) overlay.style.display = 'none';
+                        return;
+                    }
+                    
+                    // Mostrar modal de confirmación
+                    if (confirmPlanName) confirmPlanName.textContent = VIP_PLANS[selectedPlan].name;
+                    if (confirmPlanAmount) confirmPlanAmount.textContent = planAmount;
+                    if (confirmPlanDaily) confirmPlanDaily.textContent = VIP_PLANS[selectedPlan].daily;
+                    if (currentUserBalance) currentUserBalance.textContent = currentUser.balance.toFixed(2);
+                    
+                    if (purchaseConfirmModal) purchaseConfirmModal.style.display = 'flex';
+                });
+            }
+            
+            // Cerrar modal de confirmación de compra
+            if (closePurchaseConfirm) {
+                closePurchaseConfirm.addEventListener('click', function() {
+                    if (purchaseConfirmModal) purchaseConfirmModal.style.display = 'none';
+                });
+            }
+            
+            if (cancelPurchase) {
+                cancelPurchase.addEventListener('click', function() {
+                    if (purchaseConfirmModal) purchaseConfirmModal.style.display = 'none';
+                });
+            }
+            
+            // Confirmar compra de plan
+            if (confirmPurchase) {
+                confirmPurchase.addEventListener('click', function() {
+                    const planAmount = VIP_PLANS[selectedPlan].amount;
+                    
+                    // Restar el monto del saldo del usuario
+                    currentUser.balance -= planAmount;
+                    
+                    // Activar el plan para el usuario
+                    if (!currentUser.activePlans) currentUser.activePlans = [];
+                    currentUser.activePlans.push({
+                        plan: selectedPlan,
+                        purchaseDate: new Date(),
+                        amount: planAmount,
+                        dailyEarnings: VIP_PLANS[selectedPlan].daily
+                    });
+                    
+                    // Establecer lastEarningTime como el momento de compra para iniciar el contador
+                    currentUser.lastEarningTime = new Date();
+                    
+                    // Registrar transacción
+                    const now = new Date();
+                    const transaction = {
+                        type: 'plan_purchase',
+                        amount: planAmount,
+                        date: `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`,
+                        status: 'approved',
+                        plan: selectedPlan,
+                        description: `Compra de plan ${VIP_PLANS[selectedPlan].name}`
+                    };
+                    
+                    if (!currentUser.transactions) currentUser.transactions = [];
+                    currentUser.transactions.push(transaction);
+                    
+                    // Actualizar en Firebase
+                    updateUserInFirebase(currentUser);
+                    
+                    // Cerrar modales
+                    if (purchaseConfirmModal) purchaseConfirmModal.style.display = 'none';
+                    if (sidebar) sidebar.classList.remove('open');
+                    if (overlay) overlay.style.display = 'none';
+                    
+                    // Actualizar UI e iniciar el contador
+                    updateUI();
+                    
+                    alert(`¡Felicidades! Has activado el plan ${VIP_PLANS[selectedPlan].name}.`);
+                });
+            }
+
+            // Inicializar detalles de red
+            updateNetworkDetails(selectedNetwork);
+            
+            // Verificar estado de autenticación al cargar la página
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    // Usuario autenticado, obtener datos de Firestore
+                    db.collection("users").doc(user.uid).get()
+                        .then((doc) => {
+                            if (doc.exists) {
+                                const userData = doc.data();
+                                
+                                // Convertir Timestamps de Firebase a fechas JavaScript
+                                if (userData.lastEarningTime && userData.lastEarningTime.toDate) {
+                                    userData.lastEarningTime = userData.lastEarningTime.toDate();
+                                }
+                                
+                                // Procesar fechas en transacciones si existen
+                                if (userData.transactions) {
+                                    userData.transactions.forEach(transaction => {
+                                        // No intentar convertir si ya es un string
+                                        if (typeof transaction.date !== 'string') {
+                                            transaction.date = new Date().toLocaleString(); // Valor por defecto
+                                        }
+                                    });
+                                }
+                                
+                                currentUser = { id: doc.id, ...userData };
+                                updateUI();
+                                showPage(dashboard);
+                            } else {
+                                // El documento no existe, cerrar sesión
+                                auth.signOut();
+                                showPage(loginPage);
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Error obteniendo datos del usuario:", error);
+                            alert("Error al cargar datos. Por favor, recarga la página.");
+                            auth.signOut();
+                            showPage(loginPage);
+                        });
+                } else {
+                    // Usuario no autenticado, mostrar página de login
+                    showPage(loginPage);
+                }
+            });
+            
+            // Verificar conexión a Firebase
+            checkFirebaseConnection();
+            
+            // Recordar credenciales
+            const remembered = JSON.parse(localStorage.getItem('quality_center_remembered') || 'null');
+            if (remembered) {
+                document.getElementById('loginEmail').value = remembered.email;
+                document.getElementById('loginPassword').value = remembered.password;
+                document.getElementById('rememberMe').checked = true;
+            }
+            
+            // Mostrar botón de admin si es la primera vez
+            const adminBtnShown = localStorage.getItem('admin_btn_shown');
+            if (!adminBtnShown) {
+                setTimeout(() => {
+                    if (adminAccess) adminAccess.classList.remove('hidden-admin');
+                    localStorage.setItem('admin_btn_shown', 'true');
+                }, 5000);
+            } else {
+                if (adminAccess) adminAccess.classList.remove('hidden-admin');
+            }
+        }
+
+        // Inicializar la aplicación cuando el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
