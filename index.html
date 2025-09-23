@@ -696,17 +696,19 @@
             border-collapse: collapse;
             margin-top: 20px;
             font-size: 14px;
+            background: rgba(0, 0, 0, 0.3);
         }
         
         .admin-table th, .admin-table td {
-            padding: 10px;
+            padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .admin-table th {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
             color: #3498db;
+            font-weight: bold;
         }
         
         .admin-table tr:hover {
@@ -719,11 +721,26 @@
         }
         
         .admin-btn {
-            padding: 5px 10px;
+            padding: 6px 12px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 12px;
+            transition: all 0.3s;
+        }
+        
+        .admin-btn:hover {
+            opacity: 0.8;
+        }
+        
+        .view-details {
+            background: #3498db;
+            color: white;
+        }
+        
+        .delete-user {
+            background: #e74c3c;
+            color: white;
         }
         
         .admin-checkbox {
@@ -735,7 +752,7 @@
         .user-details {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
-            padding: 15px;
+            padding: 20px;
             margin-top: 20px;
             display: none;
         }
@@ -743,12 +760,25 @@
         .user-details h3 {
             margin-bottom: 15px;
             color: #3498db;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
         }
         
         .user-details p {
-            margin: 8px 0;
+            margin: 10px 0;
             display: flex;
             justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-details p span:first-child {
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .user-details p span:last-child {
+            color: #2ecc71;
         }
         
         .admin-access {
@@ -987,6 +1017,14 @@
             
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .admin-table {
+                font-size: 12px;
+            }
+            
+            .admin-table th, .admin-table td {
+                padding: 8px 10px;
             }
         }
     </style>
@@ -1640,6 +1678,8 @@
                             
                             users.push({ id: doc.id, ...userData });
                         });
+                        
+                        console.log("Usuarios cargados desde Firebase:", users.length);
                         
                         // Actualizar UI si hay un usuario logueado
                         if (currentUser) {
@@ -2569,14 +2609,25 @@
                 
                 adminUsersList.innerHTML = '';
                 
+                if (users.length === 0) {
+                    adminUsersList.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">No hay usuarios registrados</td></tr>';
+                    return;
+                }
+                
                 users.forEach(user => {
                     const row = document.createElement('tr');
                     
+                    // Determinar el texto del plan
+                    let planText = 'Ninguno';
+                    if (user.activePlans && user.activePlans.length > 0) {
+                        planText = `${user.activePlans.length} planes`;
+                    }
+                    
                     row.innerHTML = `
-                        <td>${user.userId}</td>
-                        <td>${user.email}</td>
-                        <td>${user.activePlans && user.activePlans.length > 0 ? `${user.activePlans.length} planes` : 'Ninguno'}</td>
-                        <td>${user.balance.toFixed(2)} USDT</td>
+                        <td>${user.userId || 'N/A'}</td>
+                        <td>${user.email || 'N/A'}</td>
+                        <td>${planText}</td>
+                        <td>${user.balance ? user.balance.toFixed(2) : '0.00'} USDT</td>
                         <td>
                             <input type="checkbox" class="admin-checkbox recharge-approved" ${user.rechargeApproved ? 'checked' : ''} data-user="${user.id}">
                         </td>
@@ -2585,7 +2636,7 @@
                         </td>
                         <td class="admin-actions">
                             <button class="admin-btn view-details" data-user="${user.id}">Ver</button>
-                            <button class="admin-btn btn-danger delete-user" data-user="${user.id}" data-email="${user.email}">Eliminar</button>
+                            <button class="admin-btn delete-user" data-user="${user.id}" data-email="${user.email}">Eliminar</button>
                         </td>
                     `;
                     
@@ -2712,16 +2763,32 @@
                         const user = users.find(u => u.id === userId);
                         
                         if (user) {
-                            if (adminUserId) adminUserId.textContent = user.userId;
-                            if (adminUserEmail) adminUserEmail.textContent = user.email;
-                            if (adminUserWallet) adminUserWallet.textContent = user.wallet;
-                            if (adminUserPlan) adminUserPlan.textContent = user.activePlans && user.activePlans.length > 0 ? `${user.activePlans.length} planes activos` : 'Ninguno';
-                            if (adminUserBalance) adminUserBalance.textContent = `${user.balance.toFixed(2)} USDT`;
-                            if (adminUserWalletAddress) adminUserWalletAddress.textContent = user.wallet;
+                            if (adminUserId) adminUserId.textContent = user.userId || 'N/A';
+                            if (adminUserEmail) adminUserEmail.textContent = user.email || 'N/A';
+                            if (adminUserWallet) adminUserWallet.textContent = user.wallet || 'No configurada';
+                            
+                            let planText = 'Ninguno';
+                            if (user.activePlans && user.activePlans.length > 0) {
+                                planText = `${user.activePlans.length} planes activos`;
+                            }
+                            if (adminUserPlan) adminUserPlan.textContent = planText;
+                            
+                            if (adminUserBalance) adminUserBalance.textContent = `${user.balance ? user.balance.toFixed(2) : '0.00'} USDT`;
+                            if (adminUserWalletAddress) adminUserWalletAddress.textContent = user.wallet || 'No configurada';
                             
                             if (user.lastEarningTime) {
                                 const now = new Date();
-                                const nextEarningTime = new Date(user.lastEarningTime.toDate ? user.lastEarningTime.toDate() : user.lastEarningTime);
+                                let lastEarningDate;
+                                
+                                if (user.lastEarningTime.toDate) {
+                                    lastEarningDate = user.lastEarningTime.toDate();
+                                } else if (user.lastEarningTime instanceof Date) {
+                                    lastEarningDate = user.lastEarningTime;
+                                } else {
+                                    lastEarningDate = new Date(user.lastEarningTime);
+                                }
+                                
+                                const nextEarningTime = new Date(lastEarningDate);
                                 nextEarningTime.setHours(nextEarningTime.getHours() + 24);
                                 
                                 const timeDiff = nextEarningTime - now;
