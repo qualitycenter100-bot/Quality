@@ -1458,7 +1458,7 @@
             
             <div class="form-group">
                 <label for="withdrawAmount">Cantidad a retirar (USDT)</label>
-                <input type="number" id="withdrawAmount" min="3" required>
+                <input type="number" id="withdrawAmount" min="2" required>
                 <small>Saldo disponible: <span id="availableBalance">0.00</span> USDT</small>
                 <small style="display: block; margin-top: 5px;">
                     VIP: <span id="availableVIPBalance">0.00</span> USDT | 
@@ -2505,8 +2505,8 @@
                     const address = document.getElementById('withdrawAddress').value;
                     const selectedWithdrawNetwork = document.querySelector('#withdrawNetworkButtons .network-btn.active').getAttribute('data-network');
                     
-                    if (!amount || amount < 3) {
-                        alert("Monto inválido. Debe ser al menos 3 USDT.");
+                    if (!amount || amount < 2) {
+                        alert("Monto inválido. Debe ser al menos 2 USDT.");
                         return;
                     }
                     
